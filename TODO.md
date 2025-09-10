@@ -6,15 +6,15 @@ Enhanced the TM2 Healthcare Data Ingestion Service with comprehensive data clean
 ## Completed Enhancements
 
 ### 1. Data Cleaning Pipeline
-- **Normalization**: Clean and standardize data fields (whitespace, case, TM2 codes)
+- **Normalization**: Clean and standardize data fields (whitespace, case, formatting)
 - **Deduplication**: Remove duplicate records based on key fields hash
-- **Validation**: Validate required fields, TM2 code format, and date parsing
+- **Validation**: Validate required fields, TM2 codes, and date formats
 - **Statistics Generation**: Comprehensive data quality metrics including:
   - Field completeness percentages
   - Severity and system type distributions
   - Date range analysis
   - Data quality scores
-  - Duplicate and invalid record counts
+  - Duplicate/invalid record counts
 
 ### 2. EMR Conversion System
 - **EMR Models**: Created standardized EMR data models:
@@ -22,14 +22,14 @@ Enhanced the TM2 Healthcare Data Ingestion Service with comprehensive data clean
   - `EMRCondition`: Medical conditions/diagnoses
   - `EMREncounter`: Healthcare encounters
   - `EMRObservation`: Clinical observations
-  - `EMRRecord`: Complete EMR record combining all components
+  - `EMRRecord`: Complete EMR record combining all entities
   - `EMRStatistics`: Conversion process statistics
 
-- **Conversion Process**: Transform TM2 data into EMR format with:
+- **Conversion Logic**: Transform TM2 data into EMR format with:
   - Patient creation and mapping
-  - Condition extraction from TM2 records
-  - Encounter generation
-  - Observation creation
+  - Condition diagnosis records
+  - Encounter documentation
+  - Clinical observations
   - Metadata preservation
 
 ### 3. API Enhancements
@@ -42,13 +42,9 @@ Enhanced the TM2 Healthcare Data Ingestion Service with comprehensive data clean
   - `GET /emr/preview`: Preview EMR conversion with sample data
 
 ### 4. Documentation and Examples
-- **Format Guide**: Created `docs/TM2_File_Format_Guide.md` with:
-  - Required CSV columns specification
-  - File format requirements
-  - Common issues and troubleshooting
-  - Sample CSV content
-
-- **Sample Data**: Created `sample_data.csv` with valid TM2 records for testing
+- **File Format Guide**: Comprehensive guide for TM2 CSV file preparation
+- **Sample Data**: Example CSV file with valid TM2 records
+- **Code Documentation**: Detailed docstrings and comments
 
 ## Technical Implementation
 
@@ -73,7 +69,7 @@ Enhanced the TM2 Healthcare Data Ingestion Service with comprehensive data clean
 
 ## Usage Examples
 
-### 1. File Upload with Enhanced Processing
+### File Upload with Enhanced Processing
 ```bash
 curl -X POST "http://localhost:8000/ingest/trigger" \
   -H "Content-Type: multipart/form-data" \
@@ -81,63 +77,41 @@ curl -X POST "http://localhost:8000/ingest/trigger" \
 ```
 
 Response includes:
-- Original processing results
-- Data cleanup statistics
-- EMR conversion output
+- Processing summary
+- EMR output records
 - EMR conversion statistics
+- Data cleanup statistics
 
-### 2. View Cleanup Statistics
+### Get Cleanup Statistics
 ```bash
 curl -X GET "http://localhost:8000/data/cleanup-stats"
 ```
 
 Returns data quality metrics and field completeness statistics.
 
-### 3. Preview EMR Conversion
+### Preview EMR Conversion
 ```bash
 curl -X GET "http://localhost:8000/emr/preview"
 ```
 
-Shows how sample TM2 data is converted to EMR format.
-
-## Data Flow
-
-1. **Input**: TM2 CSV file upload
-2. **Cleaning**: Data normalization, deduplication, validation
-3. **Statistics**: Generate comprehensive data quality metrics
-4. **EMR Conversion**: Transform to standardized EMR format
-5. **Storage**: Store cleaned data in MongoDB
-6. **Submission**: Submit to OpenMRS
-7. **Response**: Return processing results with EMR output and statistics
+Shows sample TM2 data conversion to EMR format.
 
 ## Backward Compatibility
-
 All changes are additive and maintain backward compatibility:
-- Existing API endpoints continue to work unchanged
-- New fields are optional in responses
-- Original processing functionality preserved
-- No breaking changes to existing integrations
+- Existing API endpoints continue to work
+- Response formats include new fields but preserve existing structure
+- No breaking changes to existing functionality
 
 ## Testing
-
-Use the provided `sample_data.csv` file to test:
+Use `sample_data.csv` to test:
 1. File upload processing
 2. Data cleanup statistics
 3. EMR conversion preview
-4. API endpoint responses
+4. Enhanced processing results
 
 ## Benefits
-
-- **Improved Data Quality**: Comprehensive cleaning and validation
-- **Standardization**: EMR format enables better interoperability
-- **Monitoring**: Detailed statistics for data quality assessment
-- **Transparency**: Clear visibility into processing pipeline
-- **Flexibility**: Modular design allows for future enhancements
-
-## Future Enhancements
-
-- Real-time cleanup statistics storage and retrieval
-- Advanced data quality rules and validation
-- Integration with additional EMR systems
-- Batch processing optimizations
-- Data quality dashboards and reporting
+- **Improved Data Quality**: Automated cleaning and validation
+- **Standardization**: EMR format for interoperability
+- **Monitoring**: Comprehensive statistics and metrics
+- **User Experience**: Better error handling and feedback
+- **Maintainability**: Modular design with clear separation of concerns
